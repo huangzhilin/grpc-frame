@@ -25,7 +25,7 @@ const (
 
 func HttpSuccHandler(ctx context.Context, w http.ResponseWriter, p proto.Message) error {
 	resp := StandardResp{
-		Code: 0,
+		Code: 1,
 		Data: p,
 		Msg:  "操作成功",
 	}
@@ -48,7 +48,7 @@ func HttpErrorHandler(ctx context.Context, mux *runtime.ServeMux, m runtime.Mars
 		s = status.New(codes.Unknown, err.Error())
 	}
 	resp := StandardResp{
-		Code: 1,
+		Code: 0,
 		Data: "",
 		Msg:  s.Message(),
 	}
