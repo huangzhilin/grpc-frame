@@ -8,15 +8,18 @@ import (
 	"time"
 )
 
-//GenValidateCode 生成随机数 如：短信验证码等
-func GenValidateCode(width int) string {
-	numeric := [10]byte{0, 1, 2, 3, 4, 5, 6, 7, 8, 9}
+//GenValidateCode 生成随机数 如：短信验证码等  codeType为1时候，字符串和数字
+func GenValidateCode(width int,codeType uint8) string {
+	numeric := []string{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"}
+	if codeType==1{
+		numeric = []string{"Q","W","E","R","T","Y","U","I","P","A","S","D","F","G","H","J","K","L","Z","X","C","V","B","N","M","1","2","3","4","5","6","7","8","9"}
+	}
 	r := len(numeric)
 	rand.Seed(time.Now().UnixNano())
 
 	var sb strings.Builder
 	for i := 0; i < width; i++ {
-		fmt.Fprintf(&sb, "%d", numeric[rand.Intn(r)])
+		fmt.Fprintf(&sb, "%s", numeric[rand.Intn(r)])
 	}
 	return sb.String()
 }

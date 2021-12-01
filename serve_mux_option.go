@@ -27,7 +27,7 @@ func HttpSuccHandler(ctx context.Context, w http.ResponseWriter, p proto.Message
 	resp := StandardResp{
 		Code: 0,
 		Data: p,
-		Msg:  "",
+		Msg:  "操作成功",
 	}
 	bs, _ := json.Marshal(&resp)
 	return errors.New(proxyFlag + string(bs))
