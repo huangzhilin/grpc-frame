@@ -5,6 +5,8 @@ import (
 	"encoding/json"
 	"errors"
 	"net/http"
+	"regexp"
+	"strconv"
 	"strings"
 
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
@@ -47,11 +49,21 @@ func HttpErrorHandler(ctx context.Context, mux *runtime.ServeMux, m runtime.Mars
 	if !ok {
 		s = status.New(codes.Unknown, err.Error())
 	}
+
+
 	resp := StandardResp{
 		Code: 0,
 		Data: "",
 		Msg:  s.Message(),
 	}
+
+	reg := regexp.MustCompile(`^__([\d]+?)__`)
+	regList :=reg.FindStringSubmatch(s.Message())
+	if len(regList)==2{
+		resp.Code ,_ = strconv.Atoi(regList[1])
+		resp.Msg = strings.Replace(s.Message(),regList[0],"",1)
+	}
+
 	bs, _ := json.Marshal(&resp)
 	w.Write(bs)
 }
